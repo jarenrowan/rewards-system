@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -16,10 +15,9 @@ import {
 import PhoneInput from './components/PhoneInput';
 import styles from '../config/styles';
 import { parseNumber } from 'libphonenumber-js';
-import { createStackNavigator } from 'react-navigation';
-import type { Rewards } from './container';
+import type { HomeView } from './container/Home';
 
-class Home extends React.Component<Rewards> {
+class Home extends React.Component<HomeView> {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +35,7 @@ class Home extends React.Component<Rewards> {
       showRewards: false,
       adminMode: false,
     };
+    console.log(this.props);
     this.getAuth = this.props.getAuth;
     this.getLogout = this.props.getLogout;
     this.getReward = this.props.getReward;
@@ -268,6 +267,7 @@ class Home extends React.Component<Rewards> {
               <Item last>
                 <Input style={styles.textInput} secureTextEntry={true} placeholder="Password" value={this.state.loginPassword} onChangeText={(value) => this.setState({loginPassword: value})}/>
               </Item>
+              <PhoneInput style={styles.textInput} onChangePhone={this.onChangePhone.bind(this)} onSubmitPhone={this.onContinue.bind(this)} textValue={phoneNumber}/>
             </Form>
           </Animated.View>
         }

@@ -91,8 +91,7 @@ export const reducer = (state = { reward: {}, loading: true, auth: '' }, action)
       };
     case 'LOGIN_AUTH_RECEIVED':
       return {
-        auth: action.data.access_token,
-        message: action.data.message,
+        auth: action.payload.auth,
         loading: false,
       };
     case 'LOGIN_AUTH_ERROR':

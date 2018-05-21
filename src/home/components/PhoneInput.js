@@ -13,6 +13,7 @@ export default class PhoneInput extends Component {
     };
   }
   render() {
+    const { style } = this.props;
     const textValue = this.props.textValue || '';
     const onChangePhone = this.props.onChangePhone;
     const onSubmitPhone = this.props.onSubmitPhone;
@@ -24,7 +25,7 @@ export default class PhoneInput extends Component {
               this.setState({ phoneNumber: text});
             }}
             value={textValue}
-            style={styles.textInput}
+            style={style || styles.textInput}
             autoFocus={true}
             onSubmitEditing={(event) => onSubmitPhone(event.nativeEvent.text)}
             placeholder="Enter Phone"

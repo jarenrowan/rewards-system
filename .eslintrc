@@ -230,6 +230,10 @@
     {
       "files": [
         "local-cli/**/*.js",
+        "README.md",
+        "package.json",
+        "yarn-error.log",
+        "yarn.lock",
       ],
       "rules": {
         "lint/extra-arrow-initializer": 0,

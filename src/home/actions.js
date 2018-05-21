@@ -1,10 +1,12 @@
 import { Platform } from 'react-native';
+import type { DispatchAPI } from 'redux';
+import { home } from './reducers';
 
 const API = Platform.OS === 'android'
   ? 'http://10.0.3.2:3000' // works for Genymotion
   : 'http://127.0.0.1:3000';
 
-export const apiMiddleware = store => next => async action => {
+export const actions = store => next => async action => {
   // Pass all actions through by default
   next(action);
   switch (action.type) {
@@ -70,47 +72,47 @@ export const apiMiddleware = store => next => async action => {
   }
 };
 
-export const reducer = (state = { reward: {}, loading: true, auth: '' }, action) => {
-  switch (action.type) {
-    case 'GET_REWARDS_DATA_LOADING':
-      return {
-        ...state,
-        loading: true,
-      };
-    case 'GET_REWARD_DATA_RECEIVED':
-      return {
-        loading: false,
-        reward: action.data.reward,
-      };
-    case 'GET_REWARD_DATA_ERROR':
-      return state;
-    case 'GET_LOGIN_AUTH':
-      return {
-        ...state,
-        loading: true,
-      };
-    case 'LOGIN_AUTH_RECEIVED':
-      return {
-        auth: action.data.access_token,
-        message: action.data.message,
-        loading: false,
-      };
-    case 'LOGIN_AUTH_ERROR':
-      return state;
-    case 'GET_LOGOUT':
-      return {
-        ...state,
-        loading: true,
-      };
-    case 'LOGOUT_RECEIVED':
-      return {
-        auth: action.data.auth,
-        message: action.data.message,
-        loading: false,
-      };
-    case 'LOGIN_ERROR':
-      return state;
-    default:
-      return state;
+export function getAuth(username, password) {
+  return async (dispatch: DispatchAPI<*>, getState: any) => {
+    // Dispatch LOGIN_AUTH_LOADING to update loading state
+    dispatch({type: 'LOGIN_AUTH_LOADING'});
+    // Make API call and dispatch appropriate actions when done
+    const data = {
+      'grant_type': 'password',
+      'client_id': 'application',
+      'client_secret': 'secret',
+      'username': username,
+      'password': password,
+    };
+    let formBody = [];
+    for (var property in data) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(data[property]);
+      formBody.push(encodedKey + '=' + encodedValue);
     }
-};
+    formBody = formBody.join('&');
+    try {
+      const response = await fetch(`${API}/authorization`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formBody,
+      });
+      const auth = await response.json();
+      console.log(auth);
+      dispatch(authSuccess(auth && auth.access_token));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+function authSuccess(auth) {
+  return {
+    type: 'LOGIN_AUTH_RECEIVED',
+    payload: {
+      auth,
+    },
+  };
+}

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Rewards from './Rewards';
+import Home from '../Rewards';
 import { refresh, getAuth, getLogout, getReward } from '../actions';
 
 type DispatchProps = {
@@ -21,11 +21,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   return {
     refresh: () => dispatch({type: 'GET_REWARDS_DATA'}),
-    getAuth: async (username, password) => dispatch({
-      type: 'GET_LOGIN_AUTH',
-      username: username || 'jarenrowan',
-      password: password || 'jr10110100',
-    }),
+    getAuth: async (username, password) => dispatch(getAuth(
+      username || 'jarenrowan',
+      password || 'jr10110100',
+    )),
     getLogout: () => dispatch({type: 'GET_LOGOUT'}),
     getReward: (phoneNumber, auth) => dispatch({
       type: 'GET_REWARD_DATA',
@@ -35,5 +34,5 @@ const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   };
 };
 
-const connected = connect(mapStateToProps, mapDispatchToProps)(Rewards);
-export default (connected);
+const HomeView = connect(mapStateToProps, mapDispatchToProps)(Home);
+export default (HomeView);

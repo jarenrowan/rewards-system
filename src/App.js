@@ -1,8 +1,5 @@
 
 import React, { Component } from 'react';
-import {
-  Text,
-} from 'react-native';
 import Rewards from './Rewards';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';

@@ -17,16 +17,16 @@ export const apiMiddleware = store => next => async action => {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + action.auth,
-        }
+        },
       })
         .then(response => response.json())
         .then(data => next({
           type: 'GET_REWARD_DATA_RECEIVED',
-          data
+          data,
         }))
         .catch(error => next({
           type: 'GET_REWARD_DATA_ERROR',
-          error
+          error,
         }));
       break;
     // Do nothing if the action does not interest us
@@ -45,9 +45,9 @@ export const apiMiddleware = store => next => async action => {
       for (var property in data) {
         var encodedKey = encodeURIComponent(property);
         var encodedValue = encodeURIComponent(data[property]);
-        formBody.push(encodedKey + "=" + encodedValue);
+        formBody.push(encodedKey + '=' + encodedValue);
       }
-      formBody = formBody.join("&");
+      formBody = formBody.join('&');
       await fetch(`${API}/authorization`, {
         method: 'POST',
         headers: {
@@ -56,13 +56,13 @@ export const apiMiddleware = store => next => async action => {
         body: formBody,
       })
         .then(response => response.json())
-        .then(data => next({
+        .then(() => next({
           type: 'LOGIN_AUTH_RECEIVED',
-          data
+          data,
         }))
         .catch(error => next({
           type: 'LOGIN_AUTH_ERROR',
-          error
+          error,
         }));
       break;
     default:
@@ -70,7 +70,7 @@ export const apiMiddleware = store => next => async action => {
   }
 };
 
-export const reducer = (state = { reward: {}, loading: true, auth: '', }, action) => {
+export const reducer = (state = { reward: {}, loading: true, auth: '' }, action) => {
   switch (action.type) {
     case 'GET_REWARDS_DATA_LOADING':
       return {

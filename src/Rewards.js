@@ -1,10 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
-  ActivityIndicator,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
   View,
   Text,
   Image,
@@ -13,17 +9,13 @@ import {
 } from 'react-native';
 import {
   Button,
-  Container,
-  Header,
-  Content,
   Form,
   Item,
-  Input
+  Input,
  } from 'native-base';
-import RewardItem from './components/RewardItem/RewardItem';
 import PhoneInput from './components/PhoneInput/PhoneInput';
 import styles from './config/styles';
-import { parseNumber, formatNumber, AsYouType } from 'libphonenumber-js';
+import { parseNumber } from 'libphonenumber-js';
 import { createStackNavigator } from 'react-navigation';
 
 @connect(
@@ -66,7 +58,7 @@ class Rewards extends React.Component {
       failedLogin: false,
       showRewards: false,
       adminMode: false,
-    }
+    };
     this.getAuth = this.props.getAuth;
     this.getLogout = this.props.getLogout;
     this.getReward = this.props.getReward;
@@ -113,7 +105,7 @@ class Rewards extends React.Component {
     });
   }
   async onSubmitPhone() {
-    if (this.state.phoneNumber === '') { return }
+    if (this.state.phoneNumber === '') { return; }
     try {
       const parsedNumber = parseNumber(this.state.phoneNumber, 'US');
       console.log(parsedNumber.phone);
@@ -197,7 +189,7 @@ class Rewards extends React.Component {
   createRewards(drinks) {
     const drinkImages = [];
     let drinksLeft = drinks;
-    for(const x=0; x<10;x++) {
+    for (let x = 0; x < 10; x++) {
       if (drinksLeft) {
         drinkImages.push(<Image key={x} style={styles.rewardCupImage} source={require('./../resources/images/markedDrink.png')}/>);
         drinksLeft--;
@@ -217,17 +209,13 @@ class Rewards extends React.Component {
       failedLogin,
       auth,
       showRewards,
-      adminMode,
     } = this.state;
     const {
       reward,
-      loading,
-      refresh,
-      message,
     } = this.props;
     const arrow = '<-';
     const drinks = reward && reward.drinks;
-    const awayFromFreeDrink = 10 - drinks || 0;
+    // const awayFromFreeDrink = 10 - drinks || 0;
     return (
       <View style={styles.container}>
         <View style={styles.rewardsRow}>
@@ -341,18 +329,18 @@ class Rewards extends React.Component {
               {this.showLoggedInButtons()}
               <View style={styles.buttonContainer}>
                   {this.state.reward ?
-                    <Button style={styles.submitButton} primary={true} title='Continue' onPress={this.onContinue}>
+                    <Button style={styles.submitButton} primary={true} title="Continue" onPress={this.onContinue}>
                       <Text style={styles.loginText}>Continue</Text>
                     </Button>
                     :
-                    <Button style={styles.submitButton} primary={true} title='Submit' onPress={this.onSubmitPhone}>
+                    <Button style={styles.submitButton} primary={true} title="Submit" onPress={this.onSubmitPhone}>
                       <Text style={styles.loginText}>Submit</Text>
                     </Button>
                   }
-                  <Button style={styles.clearButton} primary={true} title='Clear Number' onPress={this.clearNumber}>
+                  <Button style={styles.clearButton} primary={true} title="Clear Number" onPress={this.clearNumber}>
                     <Text style={styles.buttonText}>X</Text>
                   </Button>
-                  <Button style={styles.logoutButton} primary={true} title='Logout' onPress={this.logout}>
+                  <Button style={styles.logoutButton} primary={true} title="Logout" onPress={this.logout}>
                     <Text style={styles.loginText}>{arrow}</Text>
                   </Button>
               </View>
@@ -370,7 +358,7 @@ class Rewards extends React.Component {
             >
               {this.showLoggedOutButtons()}
               <View style={styles.buttonContainer}>
-                <Button style={styles.loginButton} primary={true} title='Login' onPress={this.login}>
+                <Button style={styles.loginButton} primary={true} title="Login" onPress={this.login}>
                   <Text style={styles.loginText}>Login</Text>
                 </Button>
               </View>
@@ -385,5 +373,5 @@ class Rewards extends React.Component {
 export default createStackNavigator({
   Home: {
     screen: Rewards,
-  }
-})
+  },
+});

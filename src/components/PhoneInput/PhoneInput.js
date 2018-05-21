@@ -1,20 +1,16 @@
-import React, { Component, PropTypes, } from 'react';
+import React, { Component } from 'react';
 import {
-  TextInput,
   StyleSheet,
   View,
-  Button,
-  Text,
 } from 'react-native';
-import { Input, Item } from 'native-base';
-import { TextInputMask } from 'react-native-masked-text'
+import { TextInputMask } from 'react-native-masked-text';
 
 export default class PhoneInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
       phoneNumber: '',
-    }
+    };
   }
   render() {
     const textValue = this.props.textValue || '';
@@ -25,7 +21,7 @@ export default class PhoneInput extends Component {
           <TextInputMask
             onChangeText={(text) => {
               onChangePhone(text);
-              this.setState({ phoneNumber: text})
+              this.setState({ phoneNumber: text});
             }}
             value={textValue}
             style={styles.textInput}
@@ -41,7 +37,7 @@ export default class PhoneInput extends Component {
             keyboardAppearance="dark"
             type={'custom'}
             options={{
-              mask: '(999)-999-9999'
+              mask: '(999)-999-9999',
             }}
           />
       </View>
@@ -58,7 +54,7 @@ const styles = StyleSheet.create({
     borderColor: '#827c7a',
   },
   textInput: {
-    borderBottomWidth: .25,
+    borderBottomWidth: 0.25,
     textAlign: 'center',
     borderColor: 'black',
     borderRadius: 2,
@@ -67,7 +63,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     width: '50%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   loginText: {
     textAlign: 'center',

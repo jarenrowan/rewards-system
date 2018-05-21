@@ -13,35 +13,13 @@ import {
   Item,
   Input,
  } from 'native-base';
-import PhoneInput from './components/PhoneInput/PhoneInput';
-import styles from './config/styles';
+import PhoneInput from './components/PhoneInput';
+import styles from '../config/styles';
 import { parseNumber } from 'libphonenumber-js';
 import { createStackNavigator } from 'react-navigation';
+import type { Rewards } from './container';
 
-@connect(
-  state => ({
-    reward: state.reward,
-    loading: state.loading,
-    auth: state.auth,
-    message: state.message,
-  }),
-  dispatch => ({
-    refresh: () => dispatch({type: 'GET_REWARDS_DATA'}),
-    getAuth: async (username, password) => dispatch({
-      type: 'GET_LOGIN_AUTH',
-      username: username || 'jarenrowan',
-      password: password || 'jr10110100',
-    }),
-    getLogout: () => dispatch({type: 'GET_LOGOUT'}),
-    getReward: (phoneNumber, auth) => dispatch({
-      type: 'GET_REWARD_DATA',
-      phoneNumber: phoneNumber || '',
-      auth,
-    }),
-  }),
-)
-
-class Rewards extends React.Component {
+class Home extends React.Component<Rewards> {
   constructor(props) {
     super(props);
     this.state = {
@@ -191,10 +169,10 @@ class Rewards extends React.Component {
     let drinksLeft = drinks;
     for (let x = 0; x < 10; x++) {
       if (drinksLeft) {
-        drinkImages.push(<Image key={x} style={styles.rewardCupImage} source={require('./../resources/images/markedDrink.png')}/>);
+        drinkImages.push(<Image key={x} style={styles.rewardCupImage} source={require('../../resources/images/markedDrink.png')}/>);
         drinksLeft--;
       } else {
-        drinkImages.push(<Image key={x} style={styles.rewardCupImage} source={require('./../resources/images/unmarkedDrink.png')}/>);
+        drinkImages.push(<Image key={x} style={styles.rewardCupImage} source={require('../../resources/images/unmarkedDrink.png')}/>);
       }
     }
     return drinkImages;
@@ -264,7 +242,7 @@ class Rewards extends React.Component {
         >
           <Image
             style={styles.image}
-            source={require('./../resources/images/logo.png')}
+            source={require('../../resources/images/logo-copy.png')}
           />
         {auth
           ? null :
@@ -370,8 +348,45 @@ class Rewards extends React.Component {
   }
 }
 
-export default createStackNavigator({
-  Home: {
-    screen: Rewards,
-  },
-});
+// type DispatchProps = {
+//   refresh: () => void,
+//   getAuth: () => void,
+//   getLogout: () => void,
+//   getReward: () => void,
+// }
+//
+// const mapStateToProps = (state) => {
+//   return {
+//     reward: state.reward,
+//     loading: state.loading,
+//     auth: state.auth,
+//     message: state.message,
+//   };
+// };
+
+export default Home;
+
+// const mapDispatchToProps = (dispatch: Function): DispatchProps => {
+//   return {
+//     refresh: () => dispatch({type: 'GET_REWARDS_DATA'}),
+//     getAuth: async (username, password) => dispatch({
+//       type: 'GET_LOGIN_AUTH',
+//       username: username || 'jarenrowan',
+//       password: password || 'jr10110100',
+//     }),
+//     getLogout: () => dispatch({type: 'GET_LOGOUT'}),
+//     getReward: (phoneNumber, auth) => dispatch({
+//       type: 'GET_REWARD_DATA',
+//       phoneNumber: phoneNumber || '',
+//       auth,
+//     }),
+//   };
+// };
+//
+// const HomeScreen = connect(mapStateToProps, mapDispatchToProps)(Rewards);
+
+// export default createStackNavigator({
+//   Home: {
+//     screen: HomeScreen,
+//   },
+// });

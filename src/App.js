@@ -6,7 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 // import { apiMiddleware, reducer } from './redux';
 import RootReducer from './Reducer';
-import { persistStore } from 'redux-persist';
+// import { persistStore } from 'redux-persist';
 // import { PersistGate } from 'redux-persist/lib/integration/react';
 // import { Navigator } from 'react-native-deprecated-custom-components';
 import { YellowBox } from 'react-native';
@@ -29,7 +29,7 @@ const store = createStore(RootReducer,
     applyMiddleware(thunk),
   ));
 
-const persistor = persistStore(store);
+// const persistor = persistStore(store);
 
 export default class App extends Component {
   render() {

@@ -35,7 +35,6 @@ class Home extends React.Component<HomeView> {
       showRewards: false,
       adminMode: false,
     };
-    console.log(this.props);
     this.getAuth = this.props.getAuth;
     this.getLogout = this.props.getLogout;
     this.getReward = this.props.getReward;
@@ -85,8 +84,7 @@ class Home extends React.Component<HomeView> {
     if (this.state.phoneNumber === '') { return; }
     try {
       const parsedNumber = parseNumber(this.state.phoneNumber, 'US');
-      console.log(parsedNumber.phone);
-      await this.getReward(parsedNumber.phone || '', this.state.auth);
+      await this.getReward(this.state.auth, parsedNumber.phone || '');
       this.setState({
         reward: this.props.reward,
         showRewards: true,

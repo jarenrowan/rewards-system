@@ -1,34 +1,28 @@
 import { connect } from 'react-redux';
-import Home from '../Rewards';
-import { getAuth, getReward } from '../actions';
+import Login from '../Login';
+import { getAuth } from '../../home/actions';
 
 type DispatchProps = {
-  refresh: () => void,
   getAuth: () => void,
   getLogout: () => void,
-  getReward: () => void,
 }
 
 const mapStateToProps = (state) => {
   return {
-    reward: state.home.reward,
     loading: state.home.loading,
     auth: state.home.auth,
-    message: state.home.message,
   };
 };
 
 const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   return {
-    refresh: () => dispatch({type: 'GET_REWARDS_DATA'}),
     getAuth: async (username, password) => dispatch(getAuth(
       username || 'jarenrowan',
       password || 'jr10110100',
     )),
     getLogout: () => dispatch({type: 'GET_LOGOUT'}),
-    getReward: async (auth, phoneNumber) => dispatch(getReward(auth, phoneNumber || '' )),
   };
 };
 
-const HomeView = connect(mapStateToProps, mapDispatchToProps)(Home);
-export default (HomeView);
+const LoginView = connect(mapStateToProps, mapDispatchToProps)(Login);
+export default (LoginView);

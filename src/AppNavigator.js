@@ -1,4 +1,5 @@
 import HomeView from './home/containers/Home';
+import LoginView from './auth/containers/LoginView';
 import { createStackNavigator } from 'react-navigation';
 
 const StackNav = createStackNavigator(
@@ -6,7 +7,10 @@ const StackNav = createStackNavigator(
     Home: {
       screen: HomeView,
     },
-  }, { initialRouteName: 'Home' }
+    Login: {
+      screen: LoginView,
+    },
+  }, { initialRouteName: 'Login' }
 );
 
 const AppNavigator = StackNav;

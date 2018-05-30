@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     width: 60,
   },
   logoutButton: {
-    width: 40,
+    width: 120,
     alignItems: 'center',
-    backgroundColor: '#99C33A',
+    backgroundColor: '#DA542E',
     paddingBottom: 5,
     marginTop: 60,
     marginBottom: 5,
@@ -117,8 +117,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   rewardCupImage: {
-    width: 65,
+    width: '20%',
     height: 65,
+    paddingTop: 2,
+    paddingBottom: 2,
+    resizeMode: 'contain',
   },
   rewardsRow: {
     paddingTop: 150,
@@ -128,6 +131,22 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
+  loginEmptyHeader: {
+    height: 320,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerStyle: {
+    height: 40,
+    backgroundColor: '#99C33A',
+  },
+  drawerIcon: {
+    paddingBottom: 20,
+    paddingLeft: 20,
+    paddingTop: 5,
+    flex: 1,
+  }
 });
 
 export default styles;

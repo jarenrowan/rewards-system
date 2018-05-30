@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   Animated,
-  Keyboard,
 } from 'react-native';
 import {
   Button,
@@ -47,10 +46,14 @@ class Login extends React.Component<LoginView> {
   async login() {
     try {
       await this.getAuth(this.state.loginUsername, this.state.loginPassword);
-      this.setState({
-        auth: this.props.auth || false,
-        failedLogin: this.state.auth ? false : true,
-      });
+      if (this.props.auth) {
+        this.props.navigation.navigate('Home', { auth: this.props.auth});
+      } else {
+        this.setState({
+          auth: false,
+          failedLogin: true,
+        });
+      }
     } catch (e) {
       console.log(e);
     }
@@ -79,11 +82,10 @@ class Login extends React.Component<LoginView> {
       fadeAnim,
       loginButtonsFadeAnim,
       failedLogin,
-      auth,
     } = this.state;
-    console.log(this.props);
     return (
       <View style={styles.container}>
+        <View style={styles.loginEmptyHeader} />
         <Animated.View
           style={{
             ...this.props.style,
@@ -97,17 +99,15 @@ class Login extends React.Component<LoginView> {
             style={styles.image}
             source={require('../../resources/images/logo-copy.png')}
           />
-        {auth
-          ? this.props.navigation.navigate('Home') :
-            <Animated.View
-              style={{
-                ...this.props.style,
-                opacity: fadeAnim,  // Bind opacity to animated value
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#FFFFFF',
-              }}
-            >
+          <Animated.View
+            style={{
+              ...this.props.style,
+              opacity: fadeAnim,  // Bind opacity to animated value
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#FFFFFF',
+            }}
+          >
             <Form style={styles.formContainer}>
               {failedLogin
                 ?
@@ -122,7 +122,6 @@ class Login extends React.Component<LoginView> {
               </Item>
             </Form>
           </Animated.View>
-        }
           <Animated.View
             style={{
               ...this.props.style,

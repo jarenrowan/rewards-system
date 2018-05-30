@@ -8,23 +8,29 @@ import {
 } from 'react-native';
 import {
   Button,
-  Form,
-  Item,
-  Input,
  } from 'native-base';
 import PhoneInput from './components/PhoneInput';
 import styles from '../config/styles';
 import { parseNumber } from 'libphonenumber-js';
-import type { HomeView } from './container/Home';
+import type { HomeView } from './container/HomeView';
+import { YellowBox } from 'react-native';
+import { defaultUsername, defaultPassword } from '../config/settings';
+YellowBox.ignoreWarnings(['Warning: componentWillMount']);
+YellowBox.ignoreWarnings(['Warning: componentWillReceiveProps']);
+YellowBox.ignoreWarnings(['Warning: componentWillUpdate']);
+YellowBox.ignoreWarnings(['Warning: Failed prop type']);
+YellowBox.ignoreWarnings(['Module RCTImageLoader requires main queue']);
+YellowBox.ignoreWarnings(['Class RCTCxxModule']);
+
 
 class Home extends React.Component<HomeView> {
   constructor(props) {
     super(props);
     this.state = {
-      auth: false,
+      auth: this.props.auth || false,
       loading: false,
-      loginUsername: 'jarenrowan',
-      loginPassword: 'jr10110100',
+      loginUsername: defaultUsername,
+      loginPassword: defaultPassword,
       phoneNumber: '',
       reward: false,
       fadeAnim: new Animated.Value(0.01),
@@ -35,7 +41,6 @@ class Home extends React.Component<HomeView> {
       showRewards: false,
       adminMode: false,
     };
-    this.getAuth = this.props.getAuth;
     this.getLogout = this.props.getLogout;
     this.getReward = this.props.getReward;
 
@@ -44,7 +49,6 @@ class Home extends React.Component<HomeView> {
     this.clearNumber = this.clearNumber.bind(this);
     this._onClear = this._onClear.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
-    this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.onContinue = this.onContinue.bind(this);
     this.showLoggedInButtons = this.showLoggedInButtons.bind(this);
@@ -58,17 +62,12 @@ class Home extends React.Component<HomeView> {
         duration: 1000, // Make it take a while
       }
     ).start();  // Starts the animation
+    this.props.navigation.setParams({
+      onBackPress: this._handleBackPress,
+    });
   }
-  async login() {
-    try {
-      await this.getAuth(this.state.loginUsername, this.state.loginPassword);
-      this.setState({
-        auth: this.props.auth || false,
-        failedLogin: this.state.auth ? false : true,
-      });
-    } catch (e) {
-      console.log(e);
-    }
+  _handleBackPress() {
+    console.log('test');
   }
   logout() {
     this.getLogout();
@@ -79,6 +78,7 @@ class Home extends React.Component<HomeView> {
       phoneNumber: '',
       showRewards: false,
     });
+    this.props.navigation.navigate('Login');
   }
   async onSubmitPhone() {
     if (this.state.phoneNumber === '') { return; }
@@ -178,17 +178,13 @@ class Home extends React.Component<HomeView> {
     const {
       fadeAnim,
       drinksFadeAnim,
-      loginButtonsFadeAnim,
       submitButtonsFadeAnim,
       phoneNumber,
-      failedLogin,
-      auth,
       showRewards,
     } = this.state;
     const {
       reward,
     } = this.props;
-    const arrow = '<-';
     const drinks = reward && reward.drinks;
     // const awayFromFreeDrink = 10 - drinks || 0;
     return (
@@ -241,150 +237,54 @@ class Home extends React.Component<HomeView> {
             style={styles.image}
             source={require('../../resources/images/logo-copy.png')}
           />
-        {auth
-          ? null :
-            <Animated.View
-              style={{
-                ...this.props.style,
-                opacity: fadeAnim,  // Bind opacity to animated value
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#FFFFFF',
-              }}
-            >
-            <Form style={styles.formContainer}>
-              {failedLogin
-                ?
-                  <Text style={styles.errorText}>User credentials are invalid</Text>
-                : null
-              }
-              {this.showLoggedOutButtons()}
-              <Item>
-                <Input style={styles.textInput} placeholder="Username" value={this.state.loginUsername} onChangeText={(value) => this.setState({loginUsername: value})}/>
-              </Item>
-              <Item last>
-                <Input style={styles.textInput} secureTextEntry={true} placeholder="Password" value={this.state.loginPassword} onChangeText={(value) => this.setState({loginPassword: value})}/>
-              </Item>
-              <PhoneInput style={styles.textInput} onChangePhone={this.onChangePhone.bind(this)} onSubmitPhone={this.onContinue.bind(this)} textValue={phoneNumber}/>
-            </Form>
-          </Animated.View>
-        }
-        {auth
-          ?
+        <Animated.View
+          style={{
+            ...this.props.style,
+            opacity: submitButtonsFadeAnim, // Bind opacity to animated value
+            paddingTop: 0,
+            paddingBottom: 0,
+            width: 280,
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}
+        >
+          <PhoneInput onChangePhone={this.onChangePhone.bind(this)} onSubmitPhone={this.onSubmitPhone.bind(this)} textValue={phoneNumber}/>
+        </Animated.View>
           <Animated.View
             style={{
               ...this.props.style,
               opacity: submitButtonsFadeAnim, // Bind opacity to animated value
-              paddingTop: 0,
-              paddingBottom: 0,
-              width: 280,
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
+              paddingTop: 5,
+              paddingBottom: 25,
+              flex: 6,
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              flexDirection: 'column',
             }}
           >
-            <PhoneInput onChangePhone={this.onChangePhone.bind(this)} onSubmitPhone={this.onSubmitPhone.bind(this)} textValue={phoneNumber}/>
-          </Animated.View>
-          :
-          null
-        }
-        {auth
-          ?
-            <Animated.View
-              style={{
-                ...this.props.style,
-                opacity: submitButtonsFadeAnim, // Bind opacity to animated value
-                paddingTop: 5,
-                paddingBottom: 25,
-                flex: 6,
-                alignItems: 'flex-start',
-                justifyContent: 'flex-start',
-                flexDirection: 'column',
-              }}
-            >
-              {this.showLoggedInButtons()}
-              <View style={styles.buttonContainer}>
-                  {this.state.reward ?
-                    <Button style={styles.submitButton} primary={true} title="Continue" onPress={this.onContinue}>
-                      <Text style={styles.loginText}>Continue</Text>
-                    </Button>
-                    :
-                    <Button style={styles.submitButton} primary={true} title="Submit" onPress={this.onSubmitPhone}>
-                      <Text style={styles.loginText}>Submit</Text>
-                    </Button>
-                  }
-                  <Button style={styles.clearButton} primary={true} title="Clear Number" onPress={this.clearNumber}>
-                    <Text style={styles.buttonText}>X</Text>
+            {this.showLoggedInButtons()}
+            <View style={styles.buttonContainer}>
+                {this.state.reward ?
+                  <Button style={styles.submitButton} primary={true} title="Continue" onPress={this.onContinue}>
+                    <Text style={styles.loginText}>Continue</Text>
                   </Button>
-                  <Button style={styles.logoutButton} primary={true} title="Logout" onPress={this.logout}>
-                    <Text style={styles.loginText}>{arrow}</Text>
+                  :
+                  <Button style={styles.submitButton} primary={true} title="Submit" onPress={this.onSubmitPhone}>
+                    <Text style={styles.loginText}>Submit</Text>
                   </Button>
-              </View>
-            </Animated.View>
-            :
-            <Animated.View
-              style={{
-                ...this.props.style,
-                opacity: loginButtonsFadeAnim, // Bind opacity to animated value
-                paddingTop: 10,
-                paddingBottom: 25,
-                flex: 1,
-                alignItems: 'center',
-              }}
-            >
-              {this.showLoggedOutButtons()}
-              <View style={styles.buttonContainer}>
-                <Button style={styles.loginButton} primary={true} title="Login" onPress={this.login}>
-                  <Text style={styles.loginText}>Login</Text>
+                }
+                <Button style={styles.clearButton} primary={true} title="Clear Number" onPress={this.clearNumber}>
+                  <Text style={styles.buttonText}>X</Text>
                 </Button>
-              </View>
+                <Button style={styles.logoutButton} primary={true} title="Logout" onPress={this.logout}>
+                  <Text style={styles.loginText}>Logout</Text>
+                </Button>
+            </View>
           </Animated.View>
-        }
         </Animated.View>
       </View>
     );
   }
 }
 
-// type DispatchProps = {
-//   refresh: () => void,
-//   getAuth: () => void,
-//   getLogout: () => void,
-//   getReward: () => void,
-// }
-//
-// const mapStateToProps = (state) => {
-//   return {
-//     reward: state.reward,
-//     loading: state.loading,
-//     auth: state.auth,
-//     message: state.message,
-//   };
-// };
-
 export default Home;
-
-// const mapDispatchToProps = (dispatch: Function): DispatchProps => {
-//   return {
-//     refresh: () => dispatch({type: 'GET_REWARDS_DATA'}),
-//     getAuth: async (username, password) => dispatch({
-//       type: 'GET_LOGIN_AUTH',
-//       username: username || 'jarenrowan',
-//       password: password || 'jr10110100',
-//     }),
-//     getLogout: () => dispatch({type: 'GET_LOGOUT'}),
-//     getReward: (phoneNumber, auth) => dispatch({
-//       type: 'GET_REWARD_DATA',
-//       phoneNumber: phoneNumber || '',
-//       auth,
-//     }),
-//   };
-// };
-//
-// const HomeScreen = connect(mapStateToProps, mapDispatchToProps)(Rewards);
-
-// export default createStackNavigator({
-//   Home: {
-//     screen: HomeScreen,
-//   },
-// });

@@ -3,7 +3,7 @@ import type { DispatchAPI } from 'redux';
 
 const API = Platform.OS === 'android'
   ? 'http://10.0.3.2:3000' // works for Genymotion
-  : 'http://127.0.0.1:3000';
+  : 'https://rewards-system-200816.appspot.com';
 
 // Action Types
 export const GET_LOGIN_AUTH = 'GET_LOGIN_AUTH';
@@ -14,37 +14,6 @@ export const GET_REWARD_DATA = 'GET_REWARD_DATA';
 export const GET_REWARD_DATA_LOADING = 'GET_REWARD_DATA_LOADING';
 export const GET_REWARD_DATA_RECEIVED = 'GET_REWARD_DATA_RECEIVED';
 export const GET_REWARD_DATA_ERROR = 'GET_REWARD_DATA_ERROR';
-
-export const actions = store => next => async action => {
-  // Pass all actions through by default
-  next(action);
-  switch (action.type) {
-    // In case we receive an action to send an API request
-    case GET_REWARD_DATA:
-      // Dispatch GET_REWARD_DATA_LOADING to update loading state
-      store.dispatch({type: GET_REWARD_DATA_LOADING});
-      // Make API call and dispatch appropriate actions when done
-      await fetch(`${API}/rewards/${action.phoneNumber}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + action.auth,
-        },
-      })
-        .then(response => response.json())
-        .then(data => next({
-          type: GET_REWARD_DATA_RECEIVED,
-          data,
-        }))
-        .catch(error => next({
-          type: GET_REWARD_DATA_ERROR,
-          error,
-        }));
-      break;
-    // Do nothing if the action does not interest us
-    default:
-      break;
-  }
-};
 
 export function getReward(auth, phoneNumber) {
   return async (dispatch: DispatchAPI<*>, getState: any) => {

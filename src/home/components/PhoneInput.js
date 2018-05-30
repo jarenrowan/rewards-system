@@ -49,10 +49,11 @@ export default class PhoneInput extends Component {
 const styles = StyleSheet.create({
   inputContainer: {
     paddingTop: 10,
-    paddingBottom: 0,
+    paddingBottom: 50,
     width: 280,
     height: 65,
     borderColor: '#827c7a',
+    flex: 1,
   },
   textInput: {
     borderBottomWidth: 0.25,

@@ -26,7 +26,6 @@ export default class PhoneInput extends Component {
             }}
             value={textValue}
             style={style || styles.textInput}
-            autoFocus={true}
             onSubmitEditing={(event) => onSubmitPhone(event.nativeEvent.text)}
             placeholder="Enter Phone"
             blurOnSubmit={true}

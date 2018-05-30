@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   // Rewards Home Page
   container: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 5,
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
@@ -60,11 +60,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 50,
   },
-  buttonContainer: {
+  homeButtonContainer: {
     paddingTop: 10,
-    paddingBottom: 25,
+    paddingBottom: 40,
     flex: 1,
-    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -142,11 +141,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#99C33A',
   },
   drawerIcon: {
-    paddingBottom: 20,
+
     paddingLeft: 20,
     paddingTop: 5,
     flex: 1,
-  }
+  },
+  rewardDisplayText: {
+    paddingTop: 45,
+    textAlign: 'center',
+    fontSize: 25,
+  },
 });
 
 export default styles;

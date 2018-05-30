@@ -1,9 +1,14 @@
 import HomeView from './home/containers/HomeView';
 import LoginView from './auth/containers/LoginView';
-import { createStackNavigator, createDrawerNavigator, DrawerActions } from 'react-navigation';
+import RewardView from './reward/containers/RewardView';
+import { createStackNavigator, createDrawerNavigator, DrawerActions, HeaderBackButton } from 'react-navigation';
 import styles from './config/styles';
 import { View, Image, TouchableOpacity, Keyboard } from 'react-native';
 import React from 'react';
+
+const headerStyle = {
+  backgroundColor: '#99C33A',
+};
 
 const DrawerButton = (props) => {
   return (
@@ -26,8 +31,10 @@ const DrawerButton = (props) => {
   );
 };
 
+// <Icon name="bars" size={30} color="#ffffff" />
+
 const DrawerNav = createDrawerNavigator({
-  Rewards: {
+  Home: {
     screen: createStackNavigator({
       Home: {
         screen: HomeView,
@@ -35,7 +42,21 @@ const DrawerNav = createDrawerNavigator({
     }, {
       initialRouteName: 'Home',
       navigationOptions: ({ navigation }) => ({
+        headerStyle,
         headerLeft: <DrawerButton navigation={navigation} />,
+      }),
+    }),
+  },
+  Reward: {
+    screen: createStackNavigator({
+      Reward: {
+        screen: RewardView,
+      },
+    }, {
+      initialRouteName: 'Reward',
+      navigationOptions: ({ navigation }) => ({
+        headerStyle,
+        headerLeft: <HeaderBackButton tintColor="white" onPress={() => navigation.navigate('Home')} />,
       }),
     }),
   },
@@ -53,7 +74,7 @@ const DrawerNav = createDrawerNavigator({
     }),
   },
 }, {
-  initialRouteName: 'Rewards',
+  initialRouteName: 'Home',
 });
 
 const StackNav = createStackNavigator({

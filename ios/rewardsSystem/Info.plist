@@ -24,31 +24,22 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Permission for using the camera to approve rewards with QR Codes</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>localhost</key>
+			<key>example.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
 			</dict>
 		</dict>
-	</dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-	    <key>NSAllowsArbitraryLoads</key>
-	    <true/>
-	    <key>NSExceptionDomains</key>
-	    <dict>
-	        <key>example.com</key>
-	        <dict>
-	            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-	            <true/>
-	            <key>NSIncludesSubdomains</key>
-	            <true/>
-	        </dict>
-	    </dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>

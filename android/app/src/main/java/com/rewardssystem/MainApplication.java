@@ -3,6 +3,7 @@ package com.rewardssystem;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.reactnative.camera.RNCameraPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCameraPackage(),
             new RNTextInputMaskPackage(),
             new RNTextInputMaskPackage(),
             new RNTextInputMaskPackage(),

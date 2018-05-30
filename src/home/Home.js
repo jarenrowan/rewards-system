@@ -159,7 +159,7 @@ class Home extends React.Component<HomeView> {
     });
   }
   onContinue() {
-    this.setState({ adminMode: true });
+    this.props.navigation.navigate('Reward');
   }
   createRewards(drinks) {
     const drinkImages = [];
@@ -186,7 +186,8 @@ class Home extends React.Component<HomeView> {
       reward,
     } = this.props;
     const drinks = reward && reward.drinks;
-    // const awayFromFreeDrink = 10 - drinks || 0;
+    const awayFromFreeDrink = 10 - drinks || 10;
+    const continueButtonText = (awayFromFreeDrink <= 0 ? 'Redeem' : 'Continue');
     return (
       <View style={styles.container}>
         <View style={styles.rewardsRow}>
@@ -233,10 +234,6 @@ class Home extends React.Component<HomeView> {
             backgroundColor: '#FFFFFF',
           }}
         >
-          <Image
-            style={styles.image}
-            source={require('../../resources/images/logo-copy.png')}
-          />
         <Animated.View
           style={{
             ...this.props.style,
@@ -263,10 +260,10 @@ class Home extends React.Component<HomeView> {
             }}
           >
             {this.showLoggedInButtons()}
-            <View style={styles.buttonContainer}>
+            <View style={styles.homeButtonContainer}>
                 {this.state.reward ?
                   <Button style={styles.submitButton} primary={true} title="Continue" onPress={this.onContinue}>
-                    <Text style={styles.loginText}>Continue</Text>
+                    <Text style={styles.loginText}>{continueButtonText}</Text>
                   </Button>
                   :
                   <Button style={styles.submitButton} primary={true} title="Submit" onPress={this.onSubmitPhone}>
@@ -275,9 +272,6 @@ class Home extends React.Component<HomeView> {
                 }
                 <Button style={styles.clearButton} primary={true} title="Clear Number" onPress={this.clearNumber}>
                   <Text style={styles.buttonText}>X</Text>
-                </Button>
-                <Button style={styles.logoutButton} primary={true} title="Logout" onPress={this.logout}>
-                  <Text style={styles.loginText}>Logout</Text>
                 </Button>
             </View>
           </Animated.View>
@@ -288,3 +282,7 @@ class Home extends React.Component<HomeView> {
 }
 
 export default Home;
+
+//                <Button style={styles.logoutButton} primary={true} title="Logout" onPress={this.logout}>
+                //   <Text style={styles.loginText}>Logout</Text>
+                // </Button>

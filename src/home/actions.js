@@ -14,6 +14,7 @@ export const GET_REWARD_DATA = 'GET_REWARD_DATA';
 export const GET_REWARD_DATA_LOADING = 'GET_REWARD_DATA_LOADING';
 export const GET_REWARD_DATA_RECEIVED = 'GET_REWARD_DATA_RECEIVED';
 export const GET_REWARD_DATA_ERROR = 'GET_REWARD_DATA_ERROR';
+export const NAVIGATE_TO_REWARDS = 'NAVIGATE_TO_REWARDS';
 
 export function getReward(auth, phoneNumber) {
   return async (dispatch: DispatchAPI<*>, getState: any) => {
@@ -28,10 +29,18 @@ export function getReward(auth, phoneNumber) {
         },
       });
       const data = await response.json();
+      let reward = data && data.reward;
+      if (!reward) {
+        reward = {
+          freeDrink: 0,
+          phoneNumber,
+          drinks: 0,
+        };
+      }
       dispatch({
         type: GET_REWARD_DATA_RECEIVED,
         payload: {
-          reward: data && data.reward,
+          reward,
         },
       });
     } catch (e) {
@@ -80,5 +89,11 @@ export function getAuth(username, password) {
     } catch (e) {
       console.log(e);
     }
+  };
+}
+
+export function navigateToReward() {
+  return (dispatch) => {
+    dispatch({ type: NAVIGATE_TO_REWARDS });
   };
 }

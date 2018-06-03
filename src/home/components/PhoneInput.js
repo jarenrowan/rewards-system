@@ -29,6 +29,7 @@ export default class PhoneInput extends Component {
             onSubmitEditing={(event) => onSubmitPhone(event.nativeEvent.text)}
             placeholder="Enter Phone"
             blurOnSubmit={true}
+            autoFocus={true}
             returnKeyLabel="Look up Rewards"
             keyboardType="number-pad"
             maxLength={14}

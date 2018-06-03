@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import Home from '../Home';
-import { getAuth, getReward } from '../actions';
+import { getAuth, getReward, navigateToReward } from '../actions';
 
 type DispatchProps = {
-  refresh: () => void,
   getAuth: () => void,
   getLogout: () => void,
   getReward: () => void,
+  navigateToReward: () => void,
 }
 
 const mapStateToProps = (state) => {
@@ -20,13 +20,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch: Function): DispatchProps => {
   return {
-    refresh: () => dispatch({type: 'GET_REWARDS_DATA'}),
     getAuth: async (username, password) => dispatch(getAuth(
       username || '',
       password || '',
     )),
     getLogout: () => dispatch({type: 'GET_LOGOUT'}),
     getReward: async (auth, phoneNumber) => dispatch(getReward(auth, phoneNumber || '' )),
+    navigateToReward: async () => dispatch(navigateToReward()),
   };
 };
 

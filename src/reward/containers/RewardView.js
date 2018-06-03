@@ -10,10 +10,10 @@ type DispatchProps = {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     reward: state.home.reward,
     phoneNumber: state.home.reward.phoneNumber,
+    auth: state.home.auth,
   };
 };
 

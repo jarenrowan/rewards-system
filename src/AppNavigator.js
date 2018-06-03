@@ -18,7 +18,6 @@ const DrawerButton = (props) => {
         color="#fff"
         style={styles.drawerIcon}
         onPress={() => {
-          console.log(props.navigation);
           props.navigation.dispatch(DrawerActions.openDrawer());
           Keyboard.dismiss();
         }}>

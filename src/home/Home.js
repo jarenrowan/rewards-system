@@ -41,8 +41,10 @@ class Home extends React.Component<HomeView> {
       showRewards: false,
       adminMode: false,
     };
+    console.log(this.props);
     this.getLogout = this.props.getLogout;
     this.getReward = this.props.getReward;
+    this.navigateToReward = this.props.navigateToReward;
 
     this.onChangePhone = this.onChangePhone.bind(this);
     this.onSubmitPhone = this.onSubmitPhone.bind(this);
@@ -62,9 +64,6 @@ class Home extends React.Component<HomeView> {
         duration: 1000, // Make it take a while
       }
     ).start();  // Starts the animation
-    this.props.navigation.setParams({
-      onBackPress: this._handleBackPress,
-    });
   }
   _handleBackPress() {
     console.log('test');
@@ -78,19 +77,19 @@ class Home extends React.Component<HomeView> {
       phoneNumber: '',
       showRewards: false,
     });
-    this.props.navigation.navigate('Login');
+    this.props.navigation.navigate('Login', {auth: this.state.auth});
   }
   async onSubmitPhone() {
-    if (this.state.phoneNumber === '') { return; }
+    if (this.state.phoneNumber === '' || this.state.phoneNumber.length < 14) { return false; }
     try {
       const parsedNumber = parseNumber(this.state.phoneNumber, 'US');
       await this.getReward(this.state.auth, parsedNumber.phone || '');
       this.setState({
         reward: this.props.reward,
         showRewards: true,
-
       });
       Keyboard.dismiss();
+      this.onContinue();
     } catch (e) {
       console.log(e);
     }
@@ -159,7 +158,8 @@ class Home extends React.Component<HomeView> {
     });
   }
   onContinue() {
-    this.props.navigation.navigate('Reward');
+    this.navigateToReward();
+    this.props.navigation.navigate('Reward', {auth: this.state.auth, reward: this.state.reward});
   }
   createRewards(drinks) {
     const drinkImages = [];
@@ -186,8 +186,7 @@ class Home extends React.Component<HomeView> {
       reward,
     } = this.props;
     const drinks = reward && reward.drinks;
-    const awayFromFreeDrink = 10 - drinks || 10;
-    const continueButtonText = (awayFromFreeDrink <= 0 ? 'Redeem' : 'Continue');
+    const continueButtonText = (reward && reward.freeDrink ? 'Redeem' : 'Continue');
     return (
       <View style={styles.container}>
         <View style={styles.rewardsRow}>

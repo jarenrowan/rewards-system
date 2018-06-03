@@ -97,7 +97,7 @@ class Login extends React.Component<LoginView> {
         >
           <Image
             style={styles.image}
-            source={require('../../resources/images/logo-copy.png')}
+            source={require('../../resources/images/logo.png')}
           />
           <Animated.View
             style={{

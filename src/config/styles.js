@@ -28,6 +28,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#99C33A',
   },
+  quickAddButton: {
+    width: '90%',
+    height: 60,
+    alignItems: 'center',
+    backgroundColor: '#99C33A',
+    paddingBottom: 2,
+    paddingTop: 2,
+    marginBottom: 5,
+  },
+  addCustomButton: {
+    width: '100%',
+    height: 60,
+    alignItems: 'center',
+    backgroundColor: '#99C33A',
+    paddingBottom: 2,
+    paddingTop: 2,
+    marginBottom: 5,
+  },
   submitButton: {
     width: '50%',
     alignItems: 'center',
@@ -79,6 +97,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flex: 1,
   },
+  quickAddOneText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 40,
+    flex: 1,
+  },
+  addCustomText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 35,
+    flex: 1,
+  },
   buttonText: {
     textAlign: 'center',
     color: 'white',
@@ -97,6 +127,15 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     textAlign: 'center',
     borderColor: '#000000',
+  },
+  drinksInput: {
+    width: '90%',
+    borderRadius: 1,
+    textAlign: 'center',
+    borderColor: '#000000',
+    fontSize: 40,
+    margin: 25,
+    height: 40,
   },
   errorText: {
     textAlign: 'center',
@@ -148,8 +187,10 @@ const styles = StyleSheet.create({
   },
   rewardDisplayText: {
     paddingTop: 45,
+    paddingLeft: 10,
+    paddingRight: 10,
     textAlign: 'center',
-    fontSize: 25,
+    fontSize: 30,
   },
 });
 

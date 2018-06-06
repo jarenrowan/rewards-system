@@ -30,6 +30,7 @@ export function addReward(auth, phoneNumber, drinks) {
         },
       });
       const reward = await response.json();
+      console.log(reward);
       if (!reward) {
         dispatch({
           type: ADD_REWARD_ERROR,

@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  navigationHeader: {
+    height: 75,
+    width: 75,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingRight: 5,
+  },
   // Rewards Home Page
   container: {
     flex: 1,
@@ -8,7 +15,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    paddingBottom: 55,
     backgroundColor: '#FFFFFF',
   },
   loader: {
@@ -133,6 +139,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 35,
     flex: 1,
+    margin: 5,
   },
   redeemAndPurchasedText: {
     alignItems: 'center',
@@ -167,8 +174,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderColor: '#C8C8C8',
     fontSize: 35,
-    margin: 25,
-    height: 50,
+    paddingBottom: 10,
+    height: 60,
     alignSelf: 'center',
   },
   errorText: {

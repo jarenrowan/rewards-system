@@ -18,7 +18,6 @@ const defaultState = {
 };
 
 function home(state = defaultState, action) {
-  console.log(action);
   switch (action.type) {
     case GET_REWARD_DATA_LOADING:
       return {
@@ -60,6 +59,7 @@ function home(state = defaultState, action) {
         reward: action.payload.reward,
       };
     default:
+      console.log(action.type);
       return state;
     }
 }

@@ -21,7 +21,6 @@ const defaultState = {
 };
 
 function reward(state = defaultState, action) {
-  console.log(action);
   if (!action){
     return state;
   }
@@ -75,6 +74,7 @@ function reward(state = defaultState, action) {
     case CREATE_REWARD_ERROR:
       return state;
     default:
+      console.log(action.type);
       return state;
     }
 }

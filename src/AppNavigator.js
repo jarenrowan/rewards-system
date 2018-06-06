@@ -3,8 +3,9 @@ import LoginView from './auth/containers/LoginView';
 import RewardView from './reward/containers/RewardView';
 import { createStackNavigator, createDrawerNavigator, DrawerActions, HeaderBackButton } from 'react-navigation';
 import styles from './config/styles';
-import { View, Image, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import React from 'react';
+import * as Icon from 'react-native-vector-icons/Ionicons';
 
 const headerStyle = {
   backgroundColor: '#99C33A',
@@ -12,25 +13,15 @@ const headerStyle = {
 
 const DrawerButton = (props) => {
   return (
-    <View>
-      <TouchableOpacity
-        name="menu"
-        color="#fff"
-        style={styles.drawerIcon}
-        onPress={() => {
+    <View style={styles.navigationHeader}>
+      <Icon.Button name="ios-menu" size={45} backgroundColor="transparent" color="#ffffff" onPress={() => {
           props.navigation.dispatch(DrawerActions.openDrawer());
           Keyboard.dismiss();
-        }}>
-        <Image
-            style={{ width: 30, height: 30 }}
-            source={require('../resources/images/icons8-menu-filled-50.png')}
-          />
-        </TouchableOpacity>
+        }}
+      />
     </View>
   );
 };
-
-// <Icon name="bars" size={30} color="#ffffff" />
 
 const DrawerNav = createDrawerNavigator({
   Home: {
@@ -55,7 +46,7 @@ const DrawerNav = createDrawerNavigator({
       initialRouteName: 'Reward',
       navigationOptions: ({ navigation }) => ({
         headerStyle,
-        headerLeft: <HeaderBackButton tintColor="white" onPress={() => navigation.navigate('Home')} />,
+        headerLeft: <HeaderBackButton size={45} tintColor="white" onPress={() => navigation.navigate('Home')} />,
       }),
     }),
   },

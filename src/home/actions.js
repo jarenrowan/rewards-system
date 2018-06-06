@@ -92,8 +92,8 @@ export function getAuth(username, password) {
   };
 }
 
-export function navigateToReward() {
+export function navigateToReward(auth, reward) {
   return (dispatch) => {
-    dispatch({ type: NAVIGATE_TO_REWARDS });
+    dispatch({ type: NAVIGATE_TO_REWARDS, payload: { auth, reward } });
   };
 }

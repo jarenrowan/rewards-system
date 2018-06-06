@@ -25,8 +25,8 @@ const mapDispatchToProps = (dispatch: Function): DispatchProps => {
       password || '',
     )),
     getLogout: () => dispatch({type: 'GET_LOGOUT'}),
-    getReward: async (auth, phoneNumber) => dispatch(getReward(auth, phoneNumber || '' )),
-    navigateToReward: async () => dispatch(navigateToReward()),
+    getReward: async (auth, phoneNumber) => dispatch(getReward(auth, phoneNumber)),
+    navigateToReward: async (auth, reward) => dispatch(navigateToReward(auth, reward)),
   };
 };
 

@@ -11,10 +11,11 @@ import {
  } from 'native-base';
 import PhoneInput from './components/PhoneInput';
 import styles from '../config/styles';
-import { parseNumber } from 'libphonenumber-js';
+// import { parseNumber } from 'libphonenumber-js';
 import type { HomeView } from './container/HomeView';
 import { YellowBox } from 'react-native';
 import { defaultUsername, defaultPassword } from '../config/settings';
+
 YellowBox.ignoreWarnings(['Warning: componentWillMount']);
 YellowBox.ignoreWarnings(['Warning: componentWillReceiveProps']);
 YellowBox.ignoreWarnings(['Warning: componentWillUpdate']);
@@ -41,7 +42,6 @@ class Home extends React.Component<HomeView> {
       showRewards: false,
       adminMode: false,
     };
-    console.log(this.props);
     this.getLogout = this.props.getLogout;
     this.getReward = this.props.getReward;
     this.navigateToReward = this.props.navigateToReward;
@@ -65,6 +65,10 @@ class Home extends React.Component<HomeView> {
       }
     ).start();  // Starts the animation
   }
+  componentWillReceiveProps(props) {
+    console.log(props);
+    console.log(this);
+  }
   _handleBackPress() {
     console.log('test');
   }
@@ -77,16 +81,17 @@ class Home extends React.Component<HomeView> {
       phoneNumber: '',
       showRewards: false,
     });
-    this.props.navigation.navigate('Login', {auth: this.state.auth});
+    this.props.navigation.navigate('Login', {auth: false});
   }
-  async onSubmitPhone() {
+  async onSubmitPhone(number) {
     if (this.state.phoneNumber === '' || this.state.phoneNumber.length < 14) { return false; }
     try {
-      const parsedNumber = parseNumber(this.state.phoneNumber, 'US');
-      await this.getReward(this.state.auth, parsedNumber.phone || '');
+      this.setState({ loading: true });
+      await this.getReward(this.state.auth, this.state.phoneNumber || '');
       this.setState({
         reward: this.props.reward,
         showRewards: true,
+        loading: false,
       });
       Keyboard.dismiss();
       this.onContinue();
@@ -158,7 +163,7 @@ class Home extends React.Component<HomeView> {
     });
   }
   onContinue() {
-    this.navigateToReward();
+    this.navigateToReward(this.state.auth, this.state.reward);
     this.props.navigation.navigate('Reward', {auth: this.state.auth, reward: this.state.reward});
   }
   createRewards(drinks) {
@@ -181,12 +186,13 @@ class Home extends React.Component<HomeView> {
       submitButtonsFadeAnim,
       phoneNumber,
       showRewards,
+      loading,
     } = this.state;
     const {
       reward,
     } = this.props;
     const drinks = reward && reward.drinks;
-    const continueButtonText = (reward && reward.freeDrink ? 'Redeem' : 'Continue');
+    // const continueButtonText = (reward && reward.freeDrink ? 'Redeem' : 'Continue');
     return (
       <View style={styles.container}>
         <View style={styles.rewardsRow}>
@@ -260,15 +266,9 @@ class Home extends React.Component<HomeView> {
           >
             {this.showLoggedInButtons()}
             <View style={styles.homeButtonContainer}>
-                {this.state.reward ?
-                  <Button style={styles.submitButton} primary={true} title="Continue" onPress={this.onContinue}>
-                    <Text style={styles.loginText}>{continueButtonText}</Text>
-                  </Button>
-                  :
-                  <Button style={styles.submitButton} primary={true} title="Submit" onPress={this.onSubmitPhone}>
-                    <Text style={styles.loginText}>Submit</Text>
-                  </Button>
-                }
+                <Button style={styles.submitButton} primary={true} title="Submit" onPress={this.onSubmitPhone}>
+                  <Text style={styles.loginText}>Submit</Text>
+                </Button>
                 <Button style={styles.clearButton} primary={true} title="Clear Number" onPress={this.clearNumber}>
                   <Text style={styles.buttonText}>X</Text>
                 </Button>

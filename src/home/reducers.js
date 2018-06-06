@@ -10,8 +10,14 @@ import {
   NAVIGATE_TO_REWARDS,
 } from './actions';
 
-function home(state = { reward: {}, loading: true, auth: '' }, action) {
-  console.log(state);
+const defaultState = {
+  purcahsedDrinks: '',
+  reward: '',
+  loading: true,
+  auth: '',
+};
+
+function home(state = defaultState, action) {
   console.log(action);
   switch (action.type) {
     case GET_REWARD_DATA_LOADING:
@@ -48,7 +54,11 @@ function home(state = { reward: {}, loading: true, auth: '' }, action) {
     case GET_LOGIN_AUTH_ERROR:
       return state;
     case NAVIGATE_TO_REWARDS:
-      return state;
+      return {
+        ...state,
+        auth: action.payload.auth,
+        reward: action.payload.reward,
+      };
     default:
       return state;
     }

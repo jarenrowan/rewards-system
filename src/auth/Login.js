@@ -97,7 +97,7 @@ class Login extends React.Component<LoginView> {
         >
           <Image
             style={styles.image}
-            source={require('../../resources/images/logo.png')}
+            source={require('../../resources/images/logo-copy.png')}
           />
           <Animated.View
             style={{
@@ -115,10 +115,27 @@ class Login extends React.Component<LoginView> {
                 : null
               }
               <Item>
-                <Input style={styles.textInput} placeholder="Username" value={this.state.loginUsername} onChangeText={(value) => this.setState({loginUsername: value})}/>
+                <Input
+                  style={styles.textInput}
+                  placeholder="Username"
+                  value={this.state.loginUsername}
+                  onChangeText={(value) => this.setState({loginUsername: value})}
+                  returnKeyType="next"
+                  onSubmitEditing= {() => {this.passwordTextInput._root.focus(); }}
+                  blurOnSubmit={false}
+                />
               </Item>
               <Item last>
-                <Input style={styles.textInput} secureTextEntry={true} placeholder="Password" value={this.state.loginPassword} onChangeText={(value) => this.setState({loginPassword: value})}/>
+                <Input
+                  ref={(input) => { this.passwordTextInput = input; }}
+                  style={styles.textInput}
+                  secureTextEntry={true}
+                  placeholder="Password"
+                  value={this.state.loginPassword}
+                  onChangeText={(loginPassword) => this.setState({loginPassword})}
+                  onSubmitEditing={this.login}
+                  returnKeyLabel="Login"
+                />
               </Item>
             </Form>
           </Animated.View>

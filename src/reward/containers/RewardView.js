@@ -1,33 +1,39 @@
 import { connect } from 'react-redux';
 import Reward from '../Reward';
-// import { getAuth, getReward } from '../actions';
+import { addReward, redeemReward } from '../actions';
 
 type DispatchProps = {
-  // refresh: () => void,
-  // getAuth: () => void,
-  // getLogout: () => void,
-  // getReward: () => void,
+  addReward: () => void,
+  redeemReward: () => void,
 }
 
 const mapStateToProps = (state) => {
+  let reward = state.reward && state.reward.reward;
+  if (isEmpty(reward)) {
+    reward = state.home && state.home.reward;
+  }
   return {
-    reward: state.home.reward,
+    reward,
     phoneNumber: state.home.reward.phoneNumber,
     auth: state.home.auth,
   };
 };
 
+function isEmpty(myObject) {
+    for (var key in myObject) {
+        if (myObject.hasOwnProperty(key)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 const mapDispatchToProps = (dispatch: Function): DispatchProps => {
-  return {};
-  // return {
-  //   refresh: () => dispatch({type: 'GET_REWARDS_DATA'}),
-  //   getAuth: async (username, password) => dispatch(getAuth(
-  //     username || '',
-  //     password || '',
-  //   )),
-  //   getLogout: () => dispatch({type: 'GET_LOGOUT'}),
-  //   getReward: async (auth, phoneNumber) => dispatch(getReward(auth, phoneNumber || '' )),
-  // };
+  return {
+    addReward: async (auth, phoneNumber, drinks) => dispatch(addReward(auth, phoneNumber, drinks)),
+    redeemReward: async (auth, phoneNumber) => dispatch(redeemReward(auth, phoneNumber)),
+  };
 };
 
 const RewardView = connect(mapStateToProps, mapDispatchToProps)(Reward);

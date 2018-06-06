@@ -9,7 +9,7 @@ export default class PhoneInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      phoneNumber: '',
+      phoneNumber: '8055989123',
     };
   }
   render() {
@@ -35,10 +35,9 @@ export default class PhoneInput extends Component {
             maxLength={14}
             borderColor="black"
             borderRadius={5}
-            keyboardAppearance="dark"
             type={'custom'}
             options={{
-              mask: '(999)-999-9999',
+              mask: '(999) 999-9999',
             }}
           />
       </View>

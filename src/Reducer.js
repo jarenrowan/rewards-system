@@ -1,14 +1,10 @@
-import { persistCombineReducers } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // AsyncStorage
+import { combineReducers } from 'redux';
 import home from './home/reducers';
+import reward from './reward/reducers';
 
-const persistConfig = {
-  debug: __DEV__,
-  key: 'primary',
-  blacklist: ['nav'],
-  storage,
-};
-
-export default persistCombineReducers(persistConfig, {
-  home,
+const rootReducer = combineReducers({
+  home: home,
+  reward: reward,
 });
+
+export default rootReducer;
